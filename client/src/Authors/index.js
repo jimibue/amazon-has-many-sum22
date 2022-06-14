@@ -1,7 +1,16 @@
+import { Link,Outlet } from "react-router-dom"
+
 const Authors = ()=>{
     return (
         <div>
-            <h1>Authors Here</h1>
+            <div className='navbar'>
+              <Link to='/authors'>Authors</Link>
+              <Link to='/authors/new'>New Author</Link>
+            </div>
+            <div>
+               <Outlet />
+            </div>
+           
         </div>
     )
 }
