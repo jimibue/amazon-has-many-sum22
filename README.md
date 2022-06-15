@@ -42,3 +42,70 @@ params[:authors] = anything
 params[:books] = sdfsdf
 
 # controllers
+
+
+
+# CRUD ACTIONS CLIENT/SERVER  MVC/API WEBSITES/APPS
+
+# BACKEND
+  # PRE CODING
+  - designing your db (lucidchart) (entity realtionship diagram)
+
+  # CODING BE
+  ## subset 1 model (custom sql and model methods, validations)
+  - create our models and setup associations 
+  - seed and test
+
+  ## subset 2 routes/controllers (crud)
+  - fill out routes/controllers
+  - test with postman
+
+# FRONTEND
+
+ ## PRE CODING
+ - Desing your frontend (wireframe) 
+
+ ## FRONTEND subset 1 (UI ONLY)
+ - setup react router (pages...) * this started
+ - setuping other react components (forms, tables, list, etc)
+ - TEST
+
+ ## FRONTEND subset 2 (DATA/API ONLY)
+ - axios actual getting/sendind data to your api
+ - managing state (redux, provider, manging state on the component)
+ - TEST
+
+  ## FRONTEND subset 3 (HOOKING 1 + 2)
+ - hooking up state/ui/react-router/forms etc
+ - TEST
+
+
+ # PROVIDER BASICS
+
+ ```js
+ // React.createContext API
+
+
+import React from "react";
+
+// 1. a way to consume data (useContext hook)
+// we export the context and give that to the useContext hook
+// in another component
+// let x = useContext(DataContext)
+export const DataContext = React.createContext()
+
+//2.  a way to provide data with the value props
+const DataProvider = (props) =>{
+    return (
+        <DataContext.Provider value={{}}>
+            {props.children}
+        </DataContext.Provider>
+    )
+}
+
+export default DataProvider
+
+// in another component
+// let x = useContext(DataContext)
+// x is going to be the value of the value prop
+```
