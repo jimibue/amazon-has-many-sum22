@@ -6,6 +6,14 @@
 // put '/api/authors/:id'  => updates author
 // delete '/api/authors/:id', => 'delets an author'
 
+// {id:PK, name: string, genre: string, author_id:FK(required)}
+// get '/api/books/' => all books
+// get '/api/authors/:author_id/books' => all book from a given author
+// post '/api/authors/:author_id/books' => create a book
+// get '/api/authors/:author_id/books/:id' => gets a specific book
+// put '/api/authors/:author_id/books/:id' => updates a book
+// delete '/api/authors/:author_id/books/:id', => deletes a book
+
 // React.createContext API
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -19,6 +27,8 @@ export const DataContext = React.createContext();
 //2.  a way to provide data with the value props
 const DataProvider = (props) => {
   const [authors, setAuthors] = useState([]);
+  const [activeAuthor, setActiveAuthor] = useState(null);
+  const [authorsBooks, setAuthorsBooks] = useState(null);
 
   // MIGHT REMOVE THIS BUT FOR NOW GET AUTHORS
   // WHEN THE APP MOUNTS
@@ -37,6 +47,15 @@ const DataProvider = (props) => {
       setAuthors(res.data);
     } catch (err) {
       alert("err occured getAuthors");
+    }
+  };
+
+  const getAuthor = async (authorId) => {
+    try {
+      let res = await axios.get(`/api/authors/${authorId}`);
+      setActiveAuthor(res.data);
+    } catch (err) {
+      alert("err occured getAuthor");
     }
   };
 
@@ -62,7 +81,8 @@ const DataProvider = (props) => {
     }
     try {
       let res = await axios.put(`/api/authors/${author.id}`, author);
-      setAuthors([res.data, ...authors]);
+      let updateAuthors = authors.map(a=> a.id === res.data.id ? res.data : a) 
+      setAuthors(updateAuthors);
     } catch (err) {
       alert("err occured addAuthor");
     }
@@ -77,6 +97,47 @@ const DataProvider = (props) => {
     }
   };
 
+  const getAuthorsBooks = async (authorId) => {
+    if (!authorId) {
+      alert("yo need an id");
+      return;
+    }
+    try {
+      let res = await axios.get(`/api/authors/${authorId}/books`);
+      setAuthorsBooks(res.data);
+    } catch (err) {
+      alert("err occured getAuthorsBooks");
+    }
+  };
+  const addAuthorsBook = async (authorId, book) => {
+    try {
+      let res = await axios.post(`/api/authors/${authorId}/books`, book);
+      setAuthorsBooks([res.data, ...authorsBooks]);
+    } catch (err) {
+      alert("err occured getAuthorsBooks");
+    }
+  };
+
+  const updateAuthorsBook = async (authorId, book) => {
+    try {
+      let res = await axios.put(`/api/authors/${authorId}/books/${book.id}`, book);
+      let updateAuthorsBooks =  authorsBooks.map((b) => (b.id === res.data.id ? res.data : b))
+      setAuthorsBooks(updateAuthorsBooks);
+    } catch (err) {
+      alert("err occured getAuthorsBooks");
+    }
+  };
+
+  const deleteAuthorsBook = async (authorId, bookId) => {
+    try {
+      let res = await axios.delete(`/api/authors/${authorId}/books/${bookId}`);
+      let updateAuthorsBooks =  authorsBooks.filter((b) => (b.id !== res.data.id))
+      setAuthorsBooks(updateAuthorsBooks);
+    } catch (err) {
+      alert("err occured getAuthorsBooks");
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -85,6 +146,13 @@ const DataProvider = (props) => {
         authors,
         getAuthors,
         addAuthor,
+        authorsBooks,
+        getAuthorsBooks,
+        updateAuthorsBook,
+        addAuthorsBook,
+        deleteAuthorsBook,
+        activeAuthor,
+        getAuthor
       }}
     >
       {props.children}
