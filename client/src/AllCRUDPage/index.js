@@ -1,7 +1,10 @@
 import { useContext } from "react";
+import { BonusContext } from "../providers/BonusProvider";
 import { DataContext } from "../providers/DataProvider";
 
 const AllCRUDPage = () => {
+  const {authorsWithBooks, addBook} = useContext(BonusContext)
+  
   const {
     authors,
     addAuthor,
@@ -13,6 +16,24 @@ const AllCRUDPage = () => {
     updateAuthorsBook,
     deleteAuthorsBook
   } = useContext(DataContext);
+
+  const renderBonus = ()=>{
+    return authorsWithBooks.map(ab=>{
+        return (
+            <div>
+                <p>{ab.name}</p>
+                <p>books:</p>
+                {ab.books.map(b=>{
+                    return(
+                        <div>
+                            <p>{b.title}</p>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    })
+  }
   return (
     <div>
       <h1>AllCRUDPage Here</h1>
@@ -77,6 +98,10 @@ const AllCRUDPage = () => {
       </button>
 
       <button onClick={() => deleteAuthor(authors[0].id)}>delete Author</button>
+
+      <h1>BONUS SECTION</h1>
+      <div>{renderBonus()}</div>
+      <button onClick={()=>addBook(1, {title:'yo', genre:'yoyo'})}>add book</button>
     </div>
   );
 };

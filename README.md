@@ -126,3 +126,23 @@ export default DataProvider
 // let x = useContext(DataContext)
 // x is going to be the value of the value prop
 ```
+
+// [{id,name,age},{id,name,age}]
+// [{id,title,genre, author_id},{id,title,genre, author_id}]
+
+// JS
+
+// [
+     {
+       authorId:
+       name:
+       age:
+       books: [{book_id,title,genre},{book_id,title,genre}]  
+     },
+    {
+       authorId:
+       name:
+       age:
+       books: [{book_id,title,genre},{book_id,title,genre}]  
+     },
+   ]
