@@ -27,13 +27,14 @@ export const DataContext = React.createContext();
 //2.  a way to provide data with the value props
 const DataProvider = (props) => {
   const [authors, setAuthors] = useState([]);
+  const [books, setBooks] = useState([]);
   const [activeAuthor, setActiveAuthor] = useState(null);
   const [authorsBooks, setAuthorsBooks] = useState(null);
 
   // MIGHT REMOVE THIS BUT FOR NOW GET AUTHORS
   // WHEN THE APP MOUNTS
   useEffect(() => {
-    getAuthors();
+    getAuthorsAndBooks();
   }, []);
 
   // CRUD ACTIONS ON AUTHOR
@@ -41,10 +42,12 @@ const DataProvider = (props) => {
   // 1.  axios call (get data from server)
   // 2.  set state
   // 3. ERROR HANDLING
-  const getAuthors = async () => {
+  const getAuthorsAndBooks = async () => {
     try {
       let res = await axios.get("/api/authors");
       setAuthors(res.data);
+      let res1 = await axios.get("/api/books");
+      setBooks(res1.data)
     } catch (err) {
       alert("err occured getAuthors");
     }
@@ -128,11 +131,43 @@ const DataProvider = (props) => {
     }
   };
 
+   // delete book from our a indivual Authorbooks state (all books)
   const deleteAuthorsBook = async (authorId, bookId) => {
     try {
+      debugger
       let res = await axios.delete(`/api/authors/${authorId}/books/${bookId}`);
       let updateAuthorsBooks =  authorsBooks.filter((b) => (b.id !== res.data.id))
       setAuthorsBooks(updateAuthorsBooks);
+    } catch (err) {
+      alert("err occured deleteAuthorsBook");
+    }
+  };
+
+  // delete book from our books state (all books)
+  const deleteBook = async (authorId, bookId) => {
+    try {
+      let res = await axios.delete(`/api/authors/${authorId}/books/${bookId}`);
+      let updateBooks =  books.filter((b) => (b.id !== res.data.id))
+      setBooks(updateBooks);
+    } catch (err) {
+      alert("err occured deleteAuthorsBook");
+    }
+  };
+
+  const addBook = async (authorId, book) => {
+    try {
+      let res = await axios.post(`/api/authors/${authorId}/books`, book);
+      setBooks([res.data, ...books]);
+    } catch (err) {
+      alert("err occured getAuthorsBooks");
+    }
+  };
+
+  const updateBook = async (authorId, book) => {
+    try {
+      let res = await axios.put(`/api/authors/${authorId}/books/${book.id}`, book);
+      let updateBooks =  books.map((b) => (b.id === res.data.id ? res.data : b))
+      setBooks(updateBooks);
     } catch (err) {
       alert("err occured getAuthorsBooks");
     }
@@ -141,10 +176,13 @@ const DataProvider = (props) => {
   return (
     <DataContext.Provider
       value={{
+        deleteBook,
+        addBook,
+        updateBook,
         deleteAuthor,
         updateAuthor,
         authors,
-        getAuthors,
+        getAuthorsAndBooks,
         addAuthor,
         authorsBooks,
         getAuthorsBooks,
@@ -152,7 +190,8 @@ const DataProvider = (props) => {
         addAuthorsBook,
         deleteAuthorsBook,
         activeAuthor,
-        getAuthor
+        getAuthor,
+        books
       }}
     >
       {props.children}

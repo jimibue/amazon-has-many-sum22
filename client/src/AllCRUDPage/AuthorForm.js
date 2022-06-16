@@ -5,18 +5,20 @@ import { DataContext } from "../providers/DataProvider";
 const AuthorForm = (props) => {
   const [name, setName] = useState(props.name ? props.name : "");
   const [age, setAge] = useState(props.age || "");
-  const {addAuthor, updateAuthor} = useContext(DataContext)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ name, age });
     if (props.id) {
       // TODO ACTAUL DO STUFF HERE
-      updateAuthor({ id: props.id, name, age });
+      props.updateAuthor({ id: props.id, name, age });
       console.log("update here:");
+      if(props.setShowEditForm){
+        props.setShowEditForm(false)
+      }
     } else {
       // TODO ACTAUL DO STUFF HERE
-      addAuthor({ name, age });
+      props.addAuthor({ name, age });
       console.log("create here:", { name, age });
     }
     setAge("");

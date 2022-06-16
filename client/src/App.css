@@ -46,3 +46,47 @@ a{
   padding:20px;
   border:2px solid
 }
+
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+a {
+  margin-right: 10px;
+}
+
+.component {
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid;
+}
+
+.btn {
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid;
+}
+
+.app-container {
+  border: 3px solid blue;
+}
+.navbar {
+  border: 3px solid red;
+}
+
+.authors {
+  border: 3px solid red;
+}
+
+.author {
+  border: 3px solid orange;
+}
+
+.books {
+  border: 3px solid purple;
+}
+
+.book {
+  border: 3px solid green;
+}
