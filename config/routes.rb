@@ -14,5 +14,13 @@ Rails.application.routes.draw do
     get '/books', to: 'books#all_books'
     get '/books/:id', to: 'books#find_book'
     get '/x/:y', to: 't#z'
+
+    get '/artists', to: 'artists#index'
+    get '/artists/:id', to: 'artists#show'
+    
+    get '/songs', to: 'songs#index'
+    post '/songs', to: 'songs#create'
+    get '/songs/:id', to: 'songs#show'
+    get '/artist_songs', to: 'songs#all_data'
   end
 end
