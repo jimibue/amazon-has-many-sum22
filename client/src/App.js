@@ -6,12 +6,14 @@ import { Link, Routes, Route, Outlet } from "react-router-dom";
 import AuthorsList from "./Authors/AuthorsList";
 import AuthorForm from "./Authors/AuthorForm";
 import AuthorsShow from "./Authors/AuthorShow";
+import Spotify from "./Spotify";
 
 const MainContanier = () => {
   return (
     <div>
       <div className="navbar">
         <Link to="/">Home</Link>
+        <Link to="/spotify">Spotify</Link>
         <Link to="/allCRUDpage">allCRUDpage</Link>
         <Link to="/authors">authors</Link>
       </div>
@@ -34,6 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainContanier />}>
           <Route index element={<Home />} />
+          <Route path="/spotify" element={<Spotify />} />
           <Route path="/allCRUDpage" element={<AllCRUDPage />} />
           <Route path="/authors" element={<Authors />}>
             <Route index element={<AuthorsList />} />
